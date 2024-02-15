@@ -3,10 +3,13 @@ import * as dotenv from "dotenv";
 import fs from 'fs'
 dotenv.config();
 
-const file = fs.readFile('./part_1.mp3')
+const filePath = './part_1.mp3';
 
-const openai = new OpenAI({
-  apiKey: process.env['OPENAI_API_KEY'], // This is the default and can be omitted
+const openai = new OpenAI(process.env['OPENAI_API_KEY']);
+
+const transcription = await openai.audio.transcriptions.create({
+  file: fs.createReadStream(filePath),
   model: "whisper-1"
 });
 
+console.log(transcription)
